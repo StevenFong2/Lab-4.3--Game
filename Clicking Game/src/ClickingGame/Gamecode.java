@@ -11,6 +11,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
+import javafx.animation.AnimationTimer;
+
 
 public class Gamecode extends Application {
 	private int score = 0;
@@ -26,7 +28,6 @@ public class Gamecode extends Application {
 		Button btn = new Button();
 		btn.setText("Start Clicking");
 		Text txt = new Text(10, 0, "Click Score");
-		Label label = new Label("Times clicked: " + score);
 		btn.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -42,16 +43,35 @@ public class Gamecode extends Application {
 					score--;
 					btn.setText("Don't click me");
 				}
-				label.setText("Times clicked: " + score);
 			}
 		});
 		
 		timeStep = System.nanoTime() + 1000000000L;
-
+		new AnimationTimer()
+		{
+			public void handle(long now)
+			{
+				if (now > timeStep)
+				{
+					timeStep = now + 1000000000L;
+					scoring = !scoring;
+				}
+				if (!scoring)
+				{
+					btn.setText("Dont't Click");
+				}
+				else
+				{
+					btn.setText("Click Me!");
+				}
+				
+				txt.setText("Score: " + Integer.toString(score));
+			}
+		}.start();
+		
 		StackPane root = new StackPane();
-		root.setAlignment(label, Pos.TOP_CENTER);
-		root.getChildren().add(btn);
-		root.getChildren().add(label);
+		root.setAlignment(txt, Pos.TOP_CENTER);
+		root.getChildren().addAll(btn,txt);
 		primaryStage.setScene(new Scene(root, 300, 250));
 		primaryStage.show();
 	}
