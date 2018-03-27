@@ -12,13 +12,15 @@ import javafx.stage.Stage;
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 import javafx.animation.AnimationTimer;
-
+import java.util.ArrayList;
+import java.util.List;
 
 public class Gamecode extends Application {
 	private int score = 0;
 	private boolean scoring = true;
 	private long timeStep;
 	public static void main(String[] args) {
+		List<String> highscores = Backend.CSVreader("scores.txt");
 		launch(args);
 	}
 
