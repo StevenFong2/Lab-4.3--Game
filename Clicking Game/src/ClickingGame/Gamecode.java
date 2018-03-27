@@ -37,13 +37,11 @@ public class Gamecode extends Application {
 				if(scoring)
 				{
 					score++;
-					btn.setText("Click me");
 				}
 				
 				else
 				{
 					score--;
-					btn.setText("Don't click me");
 				}
 			}
 		});
@@ -53,6 +51,12 @@ public class Gamecode extends Application {
 		{
 			public void handle(long now)
 			{
+				if (now == 10)
+				{
+					timeStep = System.nanoTime() + 1000000000L;
+					now = 0;
+					scoring = true;
+				}
 				if (now > timeStep)
 				{
 					timeStep = now + 1000000000L;
@@ -70,6 +74,7 @@ public class Gamecode extends Application {
 				txt.setText("Score: " + Integer.toString(score));
 			}
 		}.start();
+		
 		
 		StackPane root = new StackPane();
 		root.setAlignment(txt, Pos.TOP_CENTER);
