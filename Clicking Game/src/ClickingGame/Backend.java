@@ -1,6 +1,10 @@
 package ClickingGame;
 
 import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -36,7 +40,35 @@ public class Backend
 		{
 			ioe.printStackTrace();
 		}
-		
+
 		return scores;
 	}
+
+	public static void updateCSV(String filename, String replace)
+	{
+		try
+		{
+			//object - append or add to file
+			//allows me to write stuff
+			FileWriter f = new FileWriter(filename, false);
+			//extension of filewriter
+			//makes it write more efficient?
+			BufferedWriter b = new BufferedWriter(f);
+			//prints the written stuff using filewriter and bufferedwriter
+			//to the file
+			PrintWriter p = new PrintWriter(b);
+
+			p.print(replace);
+			//flushes the stream...whatever that means
+			//makes sure all data written to file?
+			p.flush();
+			//closes the filewriter stuff?
+			p.close();
+		}
+		catch (IOException ioe)
+		{
+			ioe.printStackTrace();
+		}
+	}
+
 }
