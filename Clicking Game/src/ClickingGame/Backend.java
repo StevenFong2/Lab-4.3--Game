@@ -1,3 +1,7 @@
+//CS Java
+//Period 2
+//Donovan and Steven
+
 package ClickingGame;
 
 import java.io.BufferedReader;
