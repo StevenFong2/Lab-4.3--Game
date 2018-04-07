@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -48,10 +47,31 @@ public class Backend
 		return scores;
 	}
 
-	public static void updateCSV(String filename, String replace)
+	public static int updateCSV(String filename, int score)
 	{
-		try
+		List<String> scores = new ArrayList<String>();
+		scores = CSVreader(filename);
+		
+		int n = scores.size();
+		int pos = -1;
+		
+		try 
 		{
+			for (int i = 2; i < n; i+=2) 
+			{
+				if (score > Integer.parseInt(scores.get(i)))
+				{
+					for (int j = n - 1; j >= i + 2; j-=2)
+					{
+						scores.set(j, scores.get(j - 2));
+					}
+					
+					scores.set(i, String.valueOf(score));
+					pos = i/2;
+					break;
+				}
+			}
+			
 			//object - append or add to file
 			//allows me to write stuff
 			FileWriter f = new FileWriter(filename, false);
@@ -61,8 +81,14 @@ public class Backend
 			//prints the written stuff using filewriter and bufferedwriter
 			//to the file
 			PrintWriter p = new PrintWriter(b);
-
-			p.print(replace);
+			
+			String s = scores.get(0);
+			for (int i = 1 ; i < n - 1; i+=2)
+			{
+				s+= "\n" + scores.get(i) + "," + scores.get(i+1);
+			}
+			
+			p.print(s);
 			//flushes the stream...whatever that means
 			//makes sure all data written to file?
 			p.flush();
@@ -73,6 +99,8 @@ public class Backend
 		{
 			ioe.printStackTrace();
 		}
+		
+		return pos;
 	}
 
 }
